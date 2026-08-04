@@ -1,0 +1,70 @@
+<section class="intro">
+  <span class="badge">Resume Examples</span>
+  <h1>See what a strong resume looks like</h1>
+  <p class="lede">
+    Three ready-made examples across different career stages. Read-only — browse them for
+    ideas on structure, wording, and how much detail to include.
+  </p>
+</section>
+
+<div class="tabs">
+  @for (r of resumes; track r.id) {
+    <button
+      type="button"
+      class="tab"
+      [class.active]="activeId() === r.id"
+      (click)="select(r.id)"
+    >
+      {{ r.title }}
+    </button>
+  }
+</div>
+
+<article class="resume-sheet">
+  <header class="sheet-header">
+    <h2>{{ active.name }}</h2>
+    <div class="role">{{ active.title }}</div>
+    <div class="contact">{{ active.location }} · {{ active.email }}</div>
+  </header>
+
+  <section class="sheet-section">
+    <h3>Summary</h3>
+    <p>{{ active.summary }}</p>
+  </section>
+
+  <section class="sheet-section">
+    <h3>Experience</h3>
+    @for (job of active.experience; track job.company) {
+      <div class="job">
+        <div class="job-head">
+          <span class="job-role">{{ job.role }}</span>
+          <span class="job-period">{{ job.period }}</span>
+        </div>
+        <div class="job-company">{{ job.company }}</div>
+        <ul>
+          @for (bullet of job.bullets; track bullet) {
+            <li>{{ bullet }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </section>
+
+  <section class="sheet-section">
+    <h3>Education</h3>
+    <ul class="plain-list">
+      @for (line of active.education; track line) {
+        <li>{{ line }}</li>
+      }
+    </ul>
+  </section>
+
+  <section class="sheet-section">
+    <h3>Skills</h3>
+    <div class="tags">
+      @for (skill of active.skills; track skill) {
+        <span class="tag">{{ skill }}</span>
+      }
+    </div>
+  </section>
+</article>

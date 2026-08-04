@@ -1,0 +1,93 @@
+// 
+:root {
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --border: #E5E9F0;
+  --text: #171923;
+  --text-soft: #64748B;
+  --text-faint: #94A3B8;
+
+  --primary: #6366F1;
+  --primary-dark: #4F46E5;
+  --primary-light: #EEF2FF;
+
+  --pink: #EC4899;
+  --green: #10B981;
+  --green-light: #ECFDF5;
+  --red: #EF4444;
+  --red-light: #FEF2F2;
+  --orange: #F59E0B;
+  --blue: #3B82F6;
+
+  --shadow-sm: 0 1px 2px rgba(23, 25, 35, 0.06);
+  --shadow-md: 0 4px 16px rgba(23, 25, 35, 0.08);
+  --shadow-lg: 0 12px 32px rgba(99, 102, 241, 0.14);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+// ============================================================
+// DARK THEME — applied when <body> has class "dark-theme"
+// (toggled by ThemeService). Same variable names, dark values.
+// ============================================================
+body.dark-theme {
+  --bg: #0F1117;
+  --surface: #1A1D27;
+  --border: #2C303C;
+  --text: #F1F3F8;
+  --text-soft: #A1A8B8;
+  --text-faint: #6B7280;
+
+  --primary: #818CF8;
+  --primary-dark: #6366F1;
+  --primary-light: #262A45;
+
+  --pink: #F472B6;
+  --green: #34D399;
+  --green-light: #113123;
+  --red: #F87171;
+  --red-light: #3B1717;
+  --orange: #FBBF24;
+  --blue: #60A5FA;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 32px rgba(99, 102, 241, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

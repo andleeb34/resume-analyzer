@@ -1,0 +1,532 @@
+<div class="page">
+  <!-- ==================== GALLERY VIEW ==================== -->
+  <div class="wrapper" *ngIf="viewMode() === 'gallery'">
+    <div class="header">
+      <span class="badge-eyebrow">AI Resume Builder</span>
+      <h1 class="title">Resume templates</h1>
+      <p class="subtitle">Choose a professional ATS-friendly template.</p>
+    </div>
+
+    <div class="grid">
+      <div
+        class="card"
+        *ngFor="let template of templates; let i = index"
+        [class.hovered]="isHovered(i)"
+        (mouseenter)="onCardEnter(i)"
+        (mouseleave)="onCardLeave()"
+      >
+        <!-- top gradient bar -->
+        <div class="top-bar"></div>
+
+        <!-- interactive mini resume preview -->
+        <div class="preview-wrap">
+          <div class="preview">
+            <div class="preview-blob" [class.grown]="isHovered(i)"></div>
+
+            <!-- avatar + name -->
+            <div class="preview-header">
+              <div class="avatar" [class.tilted]="isHovered(i)">AK</div>
+              <div>
+                <div class="preview-name">A. Khan</div>
+                <div class="preview-role">Product Designer</div>
+              </div>
+            </div>
+
+            <!-- experience lines -->
+            <div class="preview-lines">
+              <div class="line line--1"></div>
+              <div class="line line--2"></div>
+              <div class="line line--3"></div>
+            </div>
+
+            <!-- skill bars -->
+            <div class="skill-bars">
+              <div class="skill-bar-row" *ngFor="let bar of skillBars">
+                <div class="skill-bar-label">{{ bar.label }}</div>
+                <div class="skill-bar-track">
+                  <div
+                    class="skill-bar-fill"
+                    [style.width]="isHovered(i) ? bar.value + '%' : '20%'"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- clickable skill tags -->
+            <div class="skill-tags">
+              <button
+                type="button"
+                class="skill-tag"
+                *ngFor="let skill of template.skills; let si = index"
+                [class.active]="isSkillActive(i, si)"
+                (click)="toggleSkill(i, si, $event)"
+              >
+                {{ skill }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- body -->
+        <div class="body">
+          <div class="body-top">
+            <h3 class="card-title">{{ template.title }}</h3>
+            <span class="ats-badge">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z" />
+              </svg>
+              {{ template.atsScore }}%
+            </span>
+          </div>
+
+          <p class="tagline">{{ template.tagline }}</p>
+
+          <ul class="features">
+            <li class="feature" *ngFor="let feature of template.features">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M20 6L9 17l-5-5" />
+              </svg>
+              {{ feature }}
+            </li>
+          </ul>
+
+          <div class="actions">
+            <button type="button" class="btn btn--ghost" (click)="onPreview(template)">
+              Preview
+            </button>
+            <button type="button" class="btn btn--solid" (click)="onUse(template)">
+              Use template
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M7 17L17 7M7 7h10v10" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BUILDER VIEW (form + live preview) ==================== -->
+  <div class="builder-wrapper" *ngIf="viewMode() === 'builder'">
+    <div class="builder-topbar no-print">
+      <button type="button" class="back-btn" (click)="backToGallery()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back to templates
+      </button>
+      <div class="builder-topbar-title">
+        Editing with <strong>{{ selectedTemplate()?.title }}</strong>
+      </div>
+      <div class="builder-topbar-actions">
+        <button
+          type="button"
+          class="btn btn--ghost analyze-btn"
+          [disabled]="isAnalyzing()"
+          (click)="analyzeResume()"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z" />
+          </svg>
+          {{ isAnalyzing() ? 'Analyzing…' : 'Analyze resume' }}
+        </button>
+        <button
+          type="button"
+          class="btn btn--ghost job-match-btn"
+          (click)="toggleJobMatchBox()"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+          </svg>
+          Match a job
+        </button>
+        <button
+          type="button"
+          class="btn btn--ghost cover-letter-btn"
+          [disabled]="isGeneratingCoverLetter()"
+          (click)="generateCoverLetter()"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M4 4h16v16H4z" />
+            <path d="M4 4l8 7 8-7" />
+          </svg>
+          {{ isGeneratingCoverLetter() ? 'Writing…' : 'Cover letter' }}
+        </button>
+        <button type="button" class="btn btn--solid download-btn" (click)="downloadPdf()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" />
+          </svg>
+          Download PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- ===== AI Analysis result panel ===== -->
+    <div class="analysis-panel no-print" *ngIf="analysisResult() as result">
+      <div class="analysis-head">
+        <div class="analysis-score-ring" [style.--pct.%]="result.overallScore">
+          <div class="analysis-score-inner">
+            <div class="num">{{ result.overallScore }}</div>
+            <div class="of">/ 100</div>
+          </div>
+        </div>
+        <div class="analysis-summary">
+          <div class="analysis-eyebrow">AI feedback</div>
+          <p>{{ result.summary }}</p>
+        </div>
+        <button type="button" class="analysis-close" (click)="closeAnalysis()" aria-label="Close">✕</button>
+      </div>
+
+      <div class="analysis-categories">
+        <div class="analysis-cat" *ngFor="let cat of result.categories">
+          <div class="analysis-cat-head">
+            <span>{{ cat.name }}</span>
+            <span>{{ cat.score }}/100</span>
+          </div>
+          <div class="analysis-bar-track">
+            <div class="analysis-bar-fill" [style.width.%]="cat.score"></div>
+          </div>
+          <p class="analysis-cat-comment">{{ cat.comment }}</p>
+        </div>
+      </div>
+
+      <div class="analysis-two-col">
+        <div>
+          <h4>✅ Strengths</h4>
+          <ul>
+            <li *ngFor="let s of result.strengths">{{ s }}</li>
+          </ul>
+        </div>
+        <div>
+          <h4>⚠️ Missing / weak</h4>
+          <ul>
+            <li *ngFor="let w of result.weaknesses">{{ w }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="analysis-suggestions">
+        <h4>💡 Fix these first</h4>
+        <ol>
+          <li *ngFor="let s of result.suggestions">{{ s }}</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="analysis-error no-print" *ngIf="analysisError()">
+      {{ analysisError() }}
+    </div>
+
+    <!-- ===== Job description match box ===== -->
+    <div class="job-match-box no-print" *ngIf="showJobMatchBox()">
+      <h3 class="job-match-title">Paste a job description to check your match</h3>
+      <textarea
+        class="form-textarea"
+        rows="5"
+        [ngModel]="jobDescription()"
+        (ngModelChange)="jobDescription.set($event)"
+        name="jobDescription"
+        placeholder="Paste the full job posting here (responsibilities, requirements, etc.)"
+      ></textarea>
+      <div class="job-match-actions">
+        <button
+          type="button"
+          class="btn btn--solid"
+          [disabled]="isMatchingJob()"
+          (click)="checkJobMatch()"
+        >
+          {{ isMatchingJob() ? 'Checking…' : 'Check match →' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="analysis-error no-print" *ngIf="jobMatchError()">
+      {{ jobMatchError() }}
+    </div>
+
+    <!-- ===== Job match result panel ===== -->
+    <div class="analysis-panel job-match-panel no-print" *ngIf="jobMatchResult() as match">
+      <div class="analysis-head">
+        <div class="analysis-score-ring job-match-ring" [style.--pct.%]="match.matchScore">
+          <div class="analysis-score-inner">
+            <div class="num">{{ match.matchScore }}</div>
+            <div class="of">MATCH</div>
+          </div>
+        </div>
+        <div class="analysis-summary">
+          <div class="analysis-eyebrow job-match-eyebrow">Job match</div>
+          <p>{{ match.summary }}</p>
+        </div>
+        <button type="button" class="analysis-close" (click)="closeJobMatch()" aria-label="Close">✕</button>
+      </div>
+
+      <div class="analysis-two-col">
+        <div>
+          <h4>✅ Matched keywords</h4>
+          <ul>
+            <li *ngFor="let k of match.matchedKeywords">{{ k }}</li>
+          </ul>
+        </div>
+        <div>
+          <h4>⚠️ Missing keywords</h4>
+          <ul>
+            <li *ngFor="let k of match.missingKeywords">{{ k }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="analysis-suggestions">
+        <h4>💡 To improve your match</h4>
+        <ol>
+          <li *ngFor="let s of match.suggestions">{{ s }}</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="analysis-error no-print" *ngIf="coverLetterError()">
+      {{ coverLetterError() }}
+    </div>
+
+    <!-- ===== Cover letter result panel ===== -->
+    <div class="analysis-panel cover-letter-panel no-print" *ngIf="coverLetterResult() as letter">
+      <div class="cover-letter-head">
+        <h3 class="cover-letter-title">✉️ Your cover letter</h3>
+        <div class="cover-letter-actions">
+          <button type="button" class="copy-btn" (click)="copyCoverLetter()">
+            {{ coverLetterCopied() ? '✓ Copied' : 'Copy' }}
+          </button>
+          <button type="button" class="analysis-close" (click)="closeCoverLetter()" aria-label="Close">✕</button>
+        </div>
+      </div>
+      <div class="cover-letter-body">{{ letter }}</div>
+    </div>
+
+    <div class="builder-grid">
+      <!-- LEFT: form -->
+      <form class="builder-form no-print" (ngSubmit)="downloadPdf()">
+        <h2 class="form-section-title">Your details</h2>
+
+        <!-- Photo upload — only for templates with hasPhoto -->
+        <div class="photo-upload-row" *ngIf="selectedTemplate()?.hasPhoto">
+          <div class="photo-preview" [class.has-photo]="formData.photoDataUrl">
+            <img *ngIf="formData.photoDataUrl" [src]="formData.photoDataUrl" alt="Profile photo" />
+            <span *ngIf="!formData.photoDataUrl">📷</span>
+          </div>
+          <div class="photo-upload-actions">
+            <label class="photo-upload-btn">
+              Upload photo
+              <input type="file" accept="image/*" (change)="onPhotoSelected($event)" hidden />
+            </label>
+            <button
+              type="button"
+              class="photo-remove-btn"
+              *ngIf="formData.photoDataUrl"
+              (click)="removePhoto()"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">
+            Full name
+            <input type="text" class="form-input" [(ngModel)]="formData.fullName" name="fullName" placeholder="Ali Khan" />
+          </label>
+          <label class="form-label">
+            Job title
+            <input type="text" class="form-input" [(ngModel)]="formData.title" name="title" placeholder="Product Designer" />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">
+            Email
+            <input type="email" class="form-input" [(ngModel)]="formData.email" name="email" placeholder="ali@email.com" />
+          </label>
+          <label class="form-label">
+            Phone
+            <input type="tel" class="form-input" [(ngModel)]="formData.phone" name="phone" placeholder="+92 300 1234567" />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label form-label--full">
+            Location
+            <input type="text" class="form-input" [(ngModel)]="formData.location" name="location" placeholder="Karachi, Pakistan" />
+          </label>
+        </div>
+
+        <label class="form-label form-label--full">
+          Professional summary
+          <textarea class="form-textarea" rows="3" [(ngModel)]="formData.summary" name="summary" placeholder="A short 2-3 line intro about yourself"></textarea>
+        </label>
+
+        <!-- ===== Experience: structured, repeatable entries ===== -->
+        <div class="entry-section">
+          <div class="entry-section-head">
+            <h3 class="form-section-title">Experience</h3>
+            <button type="button" class="add-entry-btn" (click)="addExperience()">+ Add</button>
+          </div>
+
+          <div class="entry-error" *ngIf="bulletImproveError()">{{ bulletImproveError() }}</div>
+
+          <div class="entry-block" *ngFor="let exp of formData.experience; let i = index">
+            <div class="entry-block-head">
+              <span class="entry-number">#{{ i + 1 }}</span>
+              <button
+                type="button"
+                class="remove-entry-btn"
+                *ngIf="formData.experience.length > 1"
+                (click)="removeExperience(i)"
+              >
+                Remove
+              </button>
+            </div>
+            <div class="form-row">
+              <label class="form-label">
+                Role
+                <input type="text" class="form-input" [(ngModel)]="exp.role" [name]="'expRole' + i" placeholder="Product Designer" />
+              </label>
+              <label class="form-label">
+                Company
+                <input type="text" class="form-input" [(ngModel)]="exp.company" [name]="'expCompany' + i" placeholder="Acme Inc." />
+              </label>
+            </div>
+            <label class="form-label form-label--full">
+              Dates
+              <input type="text" class="form-input" [(ngModel)]="exp.dates" [name]="'expDates' + i" placeholder="2022 — Present" />
+            </label>
+            <label class="form-label form-label--full">
+              <span class="label-with-action">
+                <span>Description <span class="form-hint">(ek line = ek bullet point)</span></span>
+                <button
+                  type="button"
+                  class="improve-btn"
+                  [disabled]="improvingIndex() === i"
+                  (click)="improveBullets(i)"
+                >
+                  ✨ {{ improvingIndex() === i ? 'Improving…' : 'Improve' }}
+                </button>
+              </span>
+              <textarea
+                class="form-textarea"
+                rows="3"
+                [(ngModel)]="exp.description"
+                [name]="'expDesc' + i"
+                placeholder="Led redesign of onboarding flow, +18% activation"
+              ></textarea>
+              <div class="improve-success" *ngIf="justImprovedIndex() === i">
+                ✓ Improved by AI
+                <button type="button" class="undo-btn" (click)="undoImproveBullets(i)">Undo</button>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- ===== Education: structured, repeatable entries ===== -->
+        <div class="entry-section">
+          <div class="entry-section-head">
+            <h3 class="form-section-title">Education</h3>
+            <button type="button" class="add-entry-btn" (click)="addEducation()">+ Add</button>
+          </div>
+
+          <div class="entry-block" *ngFor="let edu of formData.education; let i = index">
+            <div class="entry-block-head">
+              <span class="entry-number">#{{ i + 1 }}</span>
+              <button
+                type="button"
+                class="remove-entry-btn"
+                *ngIf="formData.education.length > 1"
+                (click)="removeEducation(i)"
+              >
+                Remove
+              </button>
+            </div>
+            <label class="form-label form-label--full">
+              Degree
+              <input type="text" class="form-input" [(ngModel)]="edu.degree" [name]="'eduDegree' + i" placeholder="BSc Computer Science" />
+            </label>
+            <div class="form-row">
+              <label class="form-label">
+                School
+                <input type="text" class="form-input" [(ngModel)]="edu.school" [name]="'eduSchool' + i" placeholder="FAST NUCES" />
+              </label>
+              <label class="form-label">
+                Dates
+                <input type="text" class="form-input" [(ngModel)]="edu.dates" [name]="'eduDates' + i" placeholder="2020 — 2024" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <label class="form-label form-label--full">
+          Skills <span class="form-hint">(comma separated)</span>
+          <input type="text" class="form-input" [(ngModel)]="formData.skills" name="skills" placeholder="Figma, React, SQL" />
+        </label>
+      </form>
+
+      <!-- RIGHT: live preview -->
+      <div class="builder-preview-pane">
+        <div class="resume-preview" [class.with-photo]="selectedTemplate()?.hasPhoto">
+          <div class="resume-header">
+            <img
+              *ngIf="selectedTemplate()?.hasPhoto && formData.photoDataUrl"
+              class="resume-photo"
+              [src]="formData.photoDataUrl"
+              alt="Profile photo"
+            />
+            <div class="resume-header-text">
+              <h1 class="resume-name">{{ formData.fullName || 'Your name' }}</h1>
+              <div class="resume-title" *ngIf="formData.title">{{ formData.title }}</div>
+              <div class="resume-contact">
+                <span *ngIf="formData.email">{{ formData.email }}</span>
+                <span *ngIf="formData.email && formData.phone" class="dot">•</span>
+                <span *ngIf="formData.phone">{{ formData.phone }}</span>
+                <span *ngIf="(formData.email || formData.phone) && formData.location" class="dot">•</span>
+                <span *ngIf="formData.location">{{ formData.location }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resume-section" *ngIf="formData.summary">
+            <h3 class="resume-section-title">Summary</h3>
+            <p class="resume-summary">{{ formData.summary }}</p>
+          </div>
+
+          <div class="resume-section" *ngIf="filledExperience.length">
+            <h3 class="resume-section-title">Experience</h3>
+            <div class="resume-entry" *ngFor="let exp of filledExperience">
+              <div class="resume-entry-head">
+                <span class="resume-entry-title">{{ exp.role }}<span *ngIf="exp.company"> — {{ exp.company }}</span></span>
+                <span class="resume-entry-dates">{{ exp.dates }}</span>
+              </div>
+              <ul class="resume-list" *ngIf="exp.description">
+                <li *ngFor="let line of exp.description.split('\n')">
+                  <ng-container *ngIf="line.trim()">{{ line }}</ng-container>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="resume-section" *ngIf="filledEducation.length">
+            <h3 class="resume-section-title">Education</h3>
+            <div class="resume-entry" *ngFor="let edu of filledEducation">
+              <div class="resume-entry-head">
+                <span class="resume-entry-title">{{ edu.degree }}<span *ngIf="edu.school"> — {{ edu.school }}</span></span>
+                <span class="resume-entry-dates">{{ edu.dates }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resume-section" *ngIf="skillsList.length">
+            <h3 class="resume-section-title">Skills</h3>
+            <div class="resume-skill-tags">
+              <span class="resume-skill-tag" *ngFor="let skill of skillsList">{{ skill }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

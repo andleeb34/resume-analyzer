@@ -1,0 +1,62 @@
+@if (analyzer.result(); as data) {
+  <div class="score-card">
+    <div class="ring" [style.--pct.%]="data.overallScore">
+      <div class="ring-inner">
+        <div class="num">{{ data.overallScore }}</div>
+        <div class="of">/ 100</div>
+      </div>
+    </div>
+    <div class="score-text">
+      <div class="eyebrow">Overall score</div>
+      <p>{{ data.summary }}</p>
+    </div>
+  </div>
+
+  <div class="section-title">Rubric breakdown</div>
+  <div class="card categories-card">
+    @for (cat of data.categories; track cat.name; let i = $index) {
+      <div class="category">
+        <div class="cat-head">
+          <span>{{ cat.name }}</span>
+          <span class="score">{{ cat.score }}</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" [class]="'c' + (i % 4)" [style.width.%]="cat.score"></div>
+        </div>
+        <div class="cat-comment">{{ cat.comment }}</div>
+      </div>
+    }
+  </div>
+
+  <div class="two-col">
+    <div class="card list-card good-card">
+      <div class="section-title small">✅ Strengths</div>
+      <ul class="marks">
+        @for (s of data.strengths; track s) {
+          <li>{{ s }}</li>
+        }
+      </ul>
+    </div>
+    <div class="card list-card bad-card">
+      <div class="section-title small">⚠️ Weaknesses</div>
+      <ul class="marks">
+        @for (w of data.weaknesses; track w) {
+          <li>{{ w }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">💡 Fix these first</div>
+  <div class="card suggestions-card">
+    <ol class="suggestions">
+      @for (s of data.suggestions; track s) {
+        <li>{{ s }}</li>
+      }
+    </ol>
+  </div>
+
+  <div class="again-row">
+    <button class="again-btn" type="button" (click)="again()">↺ Grade another resume</button>
+  </div>
+}

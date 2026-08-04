@@ -1,0 +1,107 @@
+<div class="hero">
+  <h1>Get your resume graded in seconds</h1>
+  <p class="lede">
+    Paste your resume or drop a file. Our AI checks content, formatting, ATS-readiness
+    and keywords — then tells you exactly what to fix.
+  </p>
+</div>
+
+<div class="card">
+  <div class="tabs">
+    <button
+      class="tab"
+      [class.active]="mode() === 'paste'"
+      type="button"
+      (click)="setMode('paste')">
+      ✍️ Paste text
+    </button>
+    <button
+      class="tab"
+      [class.active]="mode() === 'file'"
+      type="button"
+      (click)="setMode('file')">
+      📎 Upload file
+    </button>
+  </div>
+
+  @if (mode() === 'paste') {
+    <textarea
+      placeholder="Paste your resume text here..."
+      [ngModel]="pastedText()"
+      (ngModelChange)="onEditText($event)">
+    </textarea>
+  } @else {
+    <label
+      class="drop"
+      [class.dragover]="isDragOver()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)">
+      <input type="file" accept=".txt,.pdf" (change)="onFileSelected($event)" />
+      <div class="icon">📄</div>
+      <div class="fname">{{ fileName() || 'Drop a .txt or .pdf file here' }}</div>
+      <div class="hint">or click to browse · works best under ~4 pages</div>
+    </label>
+
+    @if (fileText()) {
+      <textarea
+        class="edit-extracted"
+        placeholder="Extracted text will appear here — edit it before analyzing or downloading."
+        [ngModel]="fileText()"
+        (ngModelChange)="onEditText($event)">
+      </textarea>
+    }
+  }
+
+  <div class="row">
+    <div class="count">{{ charCount }} characters</div>
+    <div class="actions">
+      <button
+        class="ghost-btn"
+        type="button"
+        [disabled]="!canDownload"
+        (click)="downloadResume()">
+        ⬇️ Download / Print
+      </button>
+      <button
+        class="primary-btn"
+        type="button"
+        [disabled]="!canAnalyze"
+        (click)="onAnalyze()">
+        @if (isLoading) {
+          <span class="spinner"></span> Analyzing…
+        } @else {
+          Analyze my resume →
+        }
+      </button>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error-note">{{ errorMessage }}</div>
+  }
+</div>
+
+<!-- Print-only view: hidden on screen, shown when downloadResume() triggers window.print() -->
+<div class="print-sheet">
+  <pre>{{ currentText() }}</pre>
+</div>
+
+<div class="features">
+  <div class="feature">
+    <span class="dot" style="background: var(--primary);"></span>
+    Content & Impact
+  </div>
+  <div class="feature">
+    <span class="dot" style="background: var(--pink);"></span>
+    Formatting
+  </div>
+  <div class="feature">
+    <span class="dot" style="background: var(--blue);"></span>
+    ATS Friendly
+  </div>
+  <div class="feature">
+    <span class="dot" style="background: var(--green);"></span>
+    Keywords
+  </div>
+</div>

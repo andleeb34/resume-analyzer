@@ -1,0 +1,103 @@
+<div class="dashboard">
+  <div class="dashboard-head">
+    <span class="badge">Admin</span>
+    <h1>Dashboard</h1>
+    <p class="lede">Overall usage across ResumeIQ.</p>
+  </div>
+
+  @if (isLoading()) {
+    <div class="state-msg">Loading dashboard…</div>
+  } @else if (error()) {
+    <div class="state-msg error">{{ error() }}</div>
+  } @else if (stats(); as s) {
+
+    <!-- ===== Top stat cards ===== -->
+    <div class="stat-grid">
+      <div class="stat-card stat-card--purple">
+        <div class="stat-icon">👤</div>
+        <div class="stat-num">{{ s.totalUsers }}</div>
+        <div class="stat-label">Total users</div>
+      </div>
+      <div class="stat-card stat-card--blue">
+        <div class="stat-icon">📊</div>
+        <div class="stat-num">{{ s.totalAnalyses }}</div>
+        <div class="stat-label">Resumes analyzed</div>
+      </div>
+      <div class="stat-card stat-card--pink">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-num">{{ s.totalJobMatches }}</div>
+        <div class="stat-label">Job matches run</div>
+      </div>
+      <div class="stat-card stat-card--green">
+        <div class="stat-icon">✉️</div>
+        <div class="stat-num">{{ s.totalCoverLetters }}</div>
+        <div class="stat-label">Cover letters written</div>
+      </div>
+      <div class="stat-card stat-card--orange">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-num">{{ s.averageScore }}</div>
+        <div class="stat-label">Average resume score</div>
+      </div>
+    </div>
+
+    <!-- ===== Score distribution ===== -->
+    <div class="section-title">Score distribution</div>
+    <div class="card">
+      @if (distributionList.length === 0 || s.totalAnalyses === 0) {
+        <div class="empty-note">No analyses yet.</div>
+      } @else {
+        <div class="bar-list">
+          @for (bucket of distributionList; track bucket.label) {
+            <div class="bar-row">
+              <div class="bar-label">{{ bucket.label }}</div>
+              <div class="bar-track">
+                <div class="bar-fill" [style.width.%]="bucket.pct"></div>
+              </div>
+              <div class="bar-count">{{ bucket.count }}</div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ===== Template usage ===== -->
+    <div class="section-title">Template usage</div>
+    <div class="card">
+      @if (templateUsageList.length === 0) {
+        <div class="empty-note">No templates used yet.</div>
+      } @else {
+        <div class="bar-list">
+          @for (t of templateUsageList; track t.name) {
+            <div class="bar-row">
+              <div class="bar-label">{{ t.name }}</div>
+              <div class="bar-track">
+                <div class="bar-fill bar-fill--pink" [style.width.%]="t.pct"></div>
+              </div>
+              <div class="bar-count">{{ t.count }}</div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ===== Recent activity ===== -->
+    <div class="section-title">Recent activity</div>
+    <div class="card">
+      @if (s.recentActivity.length === 0) {
+        <div class="empty-note">No activity yet.</div>
+      } @else {
+        <div class="activity-list">
+          @for (item of s.recentActivity; track item.date) {
+            <div class="activity-row">
+              <span class="activity-score" [class.low]="item.score < 60">{{ item.score }}</span>
+              <span class="activity-text">Resume analyzed — scored {{ item.score }}/100</span>
+              <span class="activity-date">{{ formatDate(item.date) }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <button class="refresh-btn" type="button" (click)="loadStats()">↻ Refresh</button>
+  }
+</div>

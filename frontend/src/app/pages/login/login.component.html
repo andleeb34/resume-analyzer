@@ -1,0 +1,41 @@
+<div class="auth-wrap">
+  <div class="card">
+    <span class="badge">Welcome back</span>
+    <h1>Log in to ResumeIQ</h1>
+    <p class="sub">Pick up where you left off.</p>
+
+    <form (ngSubmit)="submit()">
+      <label>
+        Email
+        <input
+          type="email"
+          placeholder="you@example.com"
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          name="email"
+          required />
+      </label>
+
+      <label>
+        Password
+        <input
+          type="password"
+          placeholder="••••••••"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          name="password"
+          required />
+      </label>
+
+      @if (error()) {
+        <div class="error-note">{{ error() }}</div>
+      }
+
+      <button class="primary-btn" type="submit">Log in →</button>
+    </form>
+
+    <p class="switch">
+      Don't have an account? <a routerLink="/signup">Sign up</a>
+    </p>
+  </div>
+</div>

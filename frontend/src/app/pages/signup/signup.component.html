@@ -1,0 +1,52 @@
+<div class="auth-wrap">
+  <div class="card">
+    <span class="badge">Get started</span>
+    <h1>Create your account</h1>
+    <p class="sub">Free — analyze as many resumes as you like.</p>
+
+    <form (ngSubmit)="submit()">
+      <label>
+        Full name
+        <input
+          type="text"
+          placeholder="Your name"
+          [ngModel]="name()"
+          (ngModelChange)="name.set($event)"
+          name="name"
+          required />
+      </label>
+
+      <label>
+        Email
+        <input
+          type="email"
+          placeholder="you@example.com"
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          name="email"
+          required />
+      </label>
+
+      <label>
+        Password
+        <input
+          type="password"
+          placeholder="At least 6 characters"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          name="password"
+          required />
+      </label>
+
+      @if (error()) {
+        <div class="error-note">{{ error() }}</div>
+      }
+
+      <button class="primary-btn" type="submit">Create account →</button>
+    </form>
+
+    <p class="switch">
+      Already have an account? <a routerLink="/login">Log in</a>
+    </p>
+  </div>
+</div>
