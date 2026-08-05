@@ -42,6 +42,10 @@ export const routes: Routes = [
   path: 'admindashboard',
   loadComponent: () =>
     import('./admindashboard/admindashboard').then(m => m.AdminDashboardComponent)
-}
-
+},
+{
+  path: 'history',
+  loadComponent: () => import('./pages/history/history.component').then(m => m.HistoryComponent)
+},
+  
 ]

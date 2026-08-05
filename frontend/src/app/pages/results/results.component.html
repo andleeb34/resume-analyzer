@@ -56,6 +56,114 @@
     </ol>
   </div>
 
+  <!-- ===== Action buttons: Match a job / Generate cover letter ===== -->
+  <div class="action-row">
+    <button class="action-btn" type="button" (click)="analyzer.toggleJobMatchBox()">
+      🎯 Match a job
+    </button>
+    <button
+      class="action-btn"
+      type="button"
+      [disabled]="analyzer.isGeneratingCoverLetter()"
+      (click)="analyzer.generateCoverLetter()"
+    >
+      ✉️ {{ analyzer.isGeneratingCoverLetter() ? 'Writing…' : 'Generate cover letter' }}
+    </button>
+  </div>
+
+  <!-- ===== Job description input box ===== -->
+  @if (analyzer.showJobMatchBox()) {
+    <div class="card feature-box">
+      <div class="section-title small">Paste a job description to check your match</div>
+      <textarea
+        class="job-textarea"
+        rows="5"
+        [ngModel]="analyzer.jobDescription()"
+        (ngModelChange)="analyzer.jobDescription.set($event)"
+        placeholder="Paste the full job posting here (responsibilities, requirements, etc.)"
+      ></textarea>
+      <div class="feature-box-actions">
+        <button
+          class="primary-btn-sm"
+          type="button"
+          [disabled]="analyzer.isMatchingJob()"
+          (click)="analyzer.checkJobMatch()"
+        >
+          {{ analyzer.isMatchingJob() ? 'Checking…' : 'Check match →' }}
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (analyzer.jobMatchError()) {
+    <div class="error-note">{{ analyzer.jobMatchError() }}</div>
+  }
+
+  <!-- ===== Job match result panel ===== -->
+  @if (analyzer.jobMatchResult(); as match) {
+    <div class="score-card job-match-card">
+      <div class="ring job-match-ring" [style.--pct.%]="match.matchScore">
+        <div class="ring-inner">
+          <div class="num">{{ match.matchScore }}</div>
+          <div class="of">MATCH</div>
+        </div>
+      </div>
+      <div class="score-text">
+        <div class="eyebrow blue">Job match</div>
+        <p>{{ match.summary }}</p>
+      </div>
+      <button class="close-btn" type="button" (click)="analyzer.closeJobMatch()" aria-label="Close">✕</button>
+    </div>
+
+    <div class="two-col">
+      <div class="card list-card">
+        <div class="section-title small">✅ Matched keywords</div>
+        <ul class="marks">
+          @for (k of match.matchedKeywords; track k) {
+            <li>{{ k }}</li>
+          }
+        </ul>
+      </div>
+      <div class="card list-card">
+        <div class="section-title small">⚠️ Missing keywords</div>
+        <ul class="marks">
+          @for (k of match.missingKeywords; track k) {
+            <li>{{ k }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">💡 To improve your match</div>
+    <div class="card suggestions-card blue-card">
+      <ol class="suggestions">
+        @for (s of match.suggestions; track s) {
+          <li>{{ s }}</li>
+        }
+      </ol>
+    </div>
+  }
+
+  @if (analyzer.coverLetterError()) {
+    <div class="error-note">{{ analyzer.coverLetterError() }}</div>
+  }
+
+  <!-- ===== Cover letter result panel ===== -->
+  @if (analyzer.coverLetterResult(); as letter) {
+    <div class="card cover-letter-card">
+      <div class="cover-letter-head">
+        <div class="section-title small">✉️ Your cover letter</div>
+        <div class="cover-letter-actions">
+          <button class="copy-btn" type="button" (click)="analyzer.copyCoverLetter()">
+            {{ analyzer.coverLetterCopied() ? '✓ Copied' : 'Copy' }}
+          </button>
+          <button class="close-btn" type="button" (click)="analyzer.closeCoverLetter()" aria-label="Close">✕</button>
+        </div>
+      </div>
+      <div class="cover-letter-body">{{ letter }}</div>
+    </div>
+  }
+
   <div class="again-row">
     <button class="again-btn" type="button" (click)="again()">↺ Grade another resume</button>
   </div>

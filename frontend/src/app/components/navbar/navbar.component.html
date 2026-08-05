@@ -1,31 +1,3 @@
-<!-- <nav class="navbar">
-  <a class="logo" routerLink="/" (click)="closeMenu()">
-    <span class="logo-mark">✦</span>
-    <span class="logo-text">ResumeIQ</span>
-  </a>
-
-  <button class="menu-toggle" type="button" (click)="toggleMenu()" aria-label="Toggle menu">
-    ☰
-  </button>
-
-  <div class="links" [class.open]="menuOpen">
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Home</a>
-    <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
-    <a routerLink="/analyze" routerLinkActive="active" (click)="closeMenu()">Analyzer</a>
-    <a routerLink="/resume-templates" routerLinkActive="active" (click)="closeMenu()">Resume Templates</a>
-    <a routerLink="/examples" routerLinkActive="active" (click)="closeMenu()">Examples</a>
-    <a routerLink="/resume-builder" routerLinkActive="active" (click)="closeMenu()">Resume Builder</a>
-
-    @if (auth.currentUser(); as user) {
-      <span class="user-chip">👤 {{ user.name }}</span>
-      <button class="ghost-btn" type="button" (click)="logout()">Log out</button>
-    } @else {
-      <a class="ghost-btn" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Log in</a>
-      <a class="primary-btn" routerLink="/signup" (click)="closeMenu()">Sign up</a>
-    }
-  </div>
-</nav> -->
-
 <nav class="navbar">
   <a class="logo" routerLink="/" (click)="closeMenu()">
     <span class="logo-mark">✦</span>
@@ -41,9 +13,8 @@
     <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
     <a routerLink="/analyze" routerLinkActive="active" (click)="closeMenu()">Analyzer</a>
     <a routerLink="/resume-templates" routerLinkActive="active" (click)="closeMenu()">Templates</a>
-    <a routerLink="/examples" routerLinkActive="active" (click)="closeMenu()">Examples</a>
-    <a routerLink="/admindashboard" routerLinkActive="active" (click)="closeMenu()">Admin</a>
-    
+    <a routerLink="/history" routerLinkActive="active" (click)="closeMenu()">History</a>
+    <a routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Admin</a>
 
     <button class="theme-toggle" type="button" (click)="theme.toggle()" aria-label="Toggle dark mode">
       {{ theme.isDark() ? '☀️' : '🌙' }}

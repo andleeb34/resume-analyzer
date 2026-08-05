@@ -1,0 +1,33 @@
+<div class="history-head">
+  <span class="badge">Your history</span>
+  <h1>Past analyses</h1>
+  <p class="lede">Every resume you've analyzed, saved right here — click any card to reopen it.</p>
+</div>
+
+@if (historyService.history().length === 0) {
+  <div class="empty-state">
+    <div class="empty-icon">🗂️</div>
+    <h3>No analyses yet</h3>
+    <p>Once you analyze a resume, it'll show up here.</p>
+    <a routerLink="/analyze" class="primary-btn">Analyze a resume →</a>
+  </div>
+} @else {
+  <div class="history-toolbar">
+    <span class="count-label">{{ historyService.history().length }} saved</span>
+    <button class="clear-btn" type="button" (click)="clearAll()">Clear all</button>
+  </div>
+
+  <div class="history-grid">
+    @for (item of historyService.history(); track item.id) {
+      <div class="history-card" (click)="view(item.id)">
+        <div class="history-card-top">
+          <div class="score-badge" [class.low]="item.overallScore < 60">{{ item.overallScore }}</div>
+          <button class="delete-btn" type="button" (click)="remove(item.id, $event)" aria-label="Delete">✕</button>
+        </div>
+        <p class="history-summary">{{ item.summary }}</p>
+        <p class="history-snippet">{{ snippet(item.resumeText) }}</p>
+        <div class="history-date">{{ formatDate(item.date) }}</div>
+      </div>
+    }
+  </div>
+}

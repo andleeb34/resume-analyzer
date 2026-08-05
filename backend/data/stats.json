@@ -1,8 +1,8 @@
 {
-  "totalUsers": 0,
-  "totalAnalyses": 2,
+  "totalUsers": 1,
+  "totalAnalyses": 3,
   "totalJobMatches": 3,
-  "totalCoverLetters": 2,
+  "totalCoverLetters": 3,
   "scores": [
     {
       "score": 40,
@@ -23,6 +23,10 @@
     {
       "score": 45,
       "date": "2026-08-04T06:47:17.315Z"
+    },
+    {
+      "score": 72,
+      "date": "2026-08-04T11:15:49.306Z"
     }
   ],
   "templateUsage": {

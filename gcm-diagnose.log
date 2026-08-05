@@ -1,0 +1,187 @@
+﻿Diagnose log at 2026-08-04T07:47:36Z
+
+AppPath: C:\Program Files\Git\mingw64\bin\git-credential-manager.exe
+InstallDir: C:\Program Files\Git\mingw64\bin\
+Version: 2.6.1+786ab03440ddc82e807a97c0e540f5247e44cec6
+
+------------
+Diagnostic: Environment
+Skipped: False
+Success: True
+Exception: None
+Log:
+OSType: Windows
+OSVersion: 10.0 (build 19045)
+Reading environment variables... OK
+ Variables:
+HOMEPATH=\Users\Fine Traders
+DriverData=C:\Windows\System32\Drivers\DriverData
+COMPUTERNAME=DESKTOP-2F8OTNA
+GIT_TRACE2_PARENT_SID=e6843b8a-cb2e-4fda-b94d-bfa0e0acee37
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+OneDrive=C:\Users\Fine Traders\OneDrive
+VSCODE_PYTHON_AUTOACTIVATE_GUARD=1
+HOME=C:\Users\Fine Traders
+PROCESSOR_REVISION=3a09
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
+GIT_ASKPASS=c:\Users\Fine Traders\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass.sh
+TMP=C:\Users\FINETR~1\AppData\Local\Temp
+TEMP=C:\Users\FINETR~1\AppData\Local\Temp
+LOCALAPPDATA=C:\Users\Fine Traders\AppData\Local
+MSYSTEM=MINGW64
+TERM=xterm-256color
+COPILOT_DEBUG_NONCE=0d7fda3f3453f56cb95d01c6c728e8d1
+TERM_PROGRAM=vscode
+COLORTERM=truecolor
+USERDOMAIN=DESKTOP-2F8OTNA
+ProgramFiles(x86)=C:\Program Files (x86)
+Path=C:/Program Files/Git/mingw64/libexec/git-core;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Fine Traders\bin;c:\Users\Fine Traders\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\Fine Traders\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\nodejs\;C:\Users\Fine Traders\AppData\Local\Microsoft\WindowsApps;C:\Users\Fine Traders\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Fine Traders\.dotnet\tools;C:\Users\Fine Traders\AppData\Roaming\Composer\vendor\bin;C:\Users\Fine Traders\AppData\Local\Programs\cursor\resources\app\bin;C:\Users\Fine Traders\AppData\Roaming\npm;C:\Users\Fine Traders\AppData\Local\Kingsoft\WPS Office\12.1.0.27458\clitool
+WPSCLI_HOME=C:\Users\Fine Traders\AppData\Local\Kingsoft\WPS Office\12.1.0.27458\clitool
+PROCESSOR_LEVEL=6
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 58 Stepping 9, GenuineIntel
+TMPDIR=C:\Users\FINETR~1\AppData\Local\Temp
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+TERM_PROGRAM_VERSION=1.131.0
+VSCODE_GIT_ASKPASS_MAIN=c:\Users\Fine Traders\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass-main.js
+PSModulePath=C:\Users\Fine Traders\Documents\WindowsPowerShell\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+PUBLIC=C:\Users\Public
+NUMBER_OF_PROCESSORS=4
+FPS_BROWSER_USER_PROFILE_STRING=Default
+CommonProgramFiles=C:\Program Files (x86)\Common Files
+VSCODE_INJECTION=1
+VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-fe03a47f5c-sock
+CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_7856_KQGHLWAPBVQZWSIM
+PLINK_PROTOCOL=ssh
+ProgramData=C:\ProgramData
+ProgramW6432=C:\Program Files
+ProgramFiles=C:\Program Files (x86)
+VSCODE_GIT_ASKPASS_NODE=C:\Users\Fine Traders\AppData\Local\Programs\Microsoft VS Code\Code.exe
+SystemRoot=C:\Windows
+SESSIONNAME=Console
+CommonProgramW6432=C:\Program Files\Common Files
+LOGONSERVER=\\DESKTOP-2F8OTNA
+GIT_EXEC_PATH=C:/Program Files/Git/mingw64/libexec/git-core
+USERDOMAIN_ROAMINGPROFILE=DESKTOP-2F8OTNA
+APPDATA=C:\Users\Fine Traders\AppData\Roaming
+HOMEDRIVE=C:
+USERNAME=Fine Traders
+PROCESSOR_ARCHITEW6432=AMD64
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+PROCESSOR_ARCHITECTURE=x86
+USERPROFILE=C:\Users\Fine Traders
+OS=Windows_NT
+ComSpec=C:\Windows\system32\cmd.exe
+SystemDrive=C:
+windir=C:\Windows
+LANG=en_US.UTF-8
+ALLUSERSPROFILE=C:\ProgramData
+
+
+------------
+Diagnostic: File system
+Skipped: False
+Success: True
+Exception: None
+Log:
+Temporary directory is 'C:\Users\Fine Traders\AppData\Local\Temp\'...
+Checking basic file I/O...
+Writing to temporary file 'C:\Users\Fine Traders\AppData\Local\Temp\5f7946b3ac8ddbf30071a3a6'... OK
+Reading from temporary file 'C:\Users\Fine Traders\AppData\Local\Temp\5f7946b3ac8ddbf30071a3a6'... OK
+Deleting temporary file 'C:\Users\Fine Traders\AppData\Local\Temp\5f7946b3ac8ddbf30071a3a6'... OK
+Testing IFileSystem instance...
+UserHomePath: C:\Users\Fine Traders
+UserDataDirectoryPath: C:\Users\Fine Traders\.gcm
+GetCurrentDirectory(): C:\Users\Fine Traders\resume-analyzer-angular\resume-analyzer-angular
+
+------------
+Diagnostic: Networking
+Skipped: False
+Success: True
+Exception: None
+Log:
+Checking networking and HTTP stack...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com...Sending HEAD request to https://example.com... OK
+ OK
+Acquiring free TCP port... OK
+Testing local HTTP loopback connections...
+Creating new HTTP listener for http://localhost:53531/... OK
+Waiting for loopback connection... OK
+Writing response... OK
+Waiting for response data... OK
+Loopback connection data OK
+
+------------
+Diagnostic: Git
+Skipped: False
+Success: True
+Exception: None
+Log:
+Getting Git version... OK
+Git version is '2.50.0.windows.1'
+Locating current repository...Git repository at 'C:/Users/Fine Traders/resume-analyzer-angular/resume-analyzer-angular/.git'
+ OK
+Listing all Git configuration... OK
+Git configuration:
+file:C:/Program Files/Git/etc/gitconfig	diff.astextplain.textconv=astextplain
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.process=git-lfs filter-process
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.required=true
+file:C:/Program Files/Git/etc/gitconfig	http.sslbackend=schannel
+file:C:/Program Files/Git/etc/gitconfig	core.autocrlf=true
+file:C:/Program Files/Git/etc/gitconfig	core.fscache=true
+file:C:/Program Files/Git/etc/gitconfig	core.symlinks=false
+file:C:/Program Files/Git/etc/gitconfig	pull.rebase=false
+file:C:/Program Files/Git/etc/gitconfig	credential.helper=manager
+file:C:/Program Files/Git/etc/gitconfig	credential.https://dev.azure.com.usehttppath=true
+file:C:/Program Files/Git/etc/gitconfig	init.defaultbranch=master
+file:C:/Users/Fine Traders/.gitconfig	user.email=andleebkiranandleeb@gmail.com
+file:C:/Users/Fine Traders/.gitconfig	user.name=andleeb kiran
+file:C:/Users/Fine Traders/.gitconfig	credential.helper=manager
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=false
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	core.symlinks=false
+file:.git/config	core.ignorecase=true
+file:.git/config	remote.origin.url=https://github.com/andleeb34/resume-analyzer.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+
+
+------------
+Diagnostic: Credential storage
+Skipped: False
+Success: True
+Exception: None
+Log:
+ICredentialStore instance is of type: CredentialStore
+Writing test credential... OK
+Reading test credential... OK
+Deleting test credential... OK
+
+------------
+Diagnostic: Microsoft authentication (AAD/MSA)
+Skipped: False
+Success: True
+Exception: None
+Log:
+Broker is not enabled.
+Flow type is: Auto
+Gathering MSAL token cache data... OK
+CacheDirectory: C:\Users\Fine Traders\AppData\Local\.IdentityService
+CacheFileName: msal.cache
+CacheFilePath: C:\Users\Fine Traders\AppData\Local\.IdentityService\msal.cache
+Creating cache helper... OK
+Verifying MSAL token cache persistence... OK
+
+------------
+Diagnostic: GitHub API
+Skipped: False
+Success: True
+Exception: None
+Log:
+Using 'https://github.com/' as API target.
+Querying '/meta' endpoint... OK
+
